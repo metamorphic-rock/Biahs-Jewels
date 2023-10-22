@@ -7,12 +7,12 @@
 
             <div class = "order-lg-2 nav-btns">
                 <button type = "button" class = "btn position-relative">
-                    <i class = "fa fa-shopping-cart"></i>
-                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">Products in cart</span>
+                    <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
+                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
                 </button>
                 <button type = "button" class = "btn position-relative">
-                    <i class = "fa fa-heart"></i>
-                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">Products liked</span>
+                    <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>
+                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products liked*@3</span>
                 </button>
                 <button type = "button" class = "btn position-relative">
                     <i class = "fa fa-search"></i>
@@ -26,16 +26,28 @@
             <div class = "collapse navbar-collapse order-lg-1" id = "navMenu">
                 <ul class = "navbar-nav mx-auto text-center">
                     <li class = "nav-item px-2 py-2">
-                        <a class = "nav-link text-uppercase text-dark" href = "#header">Store</a>
+                        <a class="nav-link text-uppercase text-dark" asp-controller="Store" asp-action="Index">Store</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
-                        <a class = "nav-link text-uppercase text-dark" href = "#collection">Blogs</a>
+                        <a class="nav-link text-uppercase text-dark" asp-controller="Blogs" asp-action="Index">Blogs</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
-                        <a class = "nav-link text-uppercase text-dark" href = "#special">My Profile</a>
+                        <a class="nav-link text-uppercase text-dark" asp-controller="Profile" asp-action="Index">My Profile</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
-                        <a class = "nav-link text-uppercase text-dark" href = "#blogs">Contact Us</a>
+                        <a class="nav-link text-uppercase text-dark" asp-controller="ContactUs" asp-action="Index">Contact Us</a>
+                    </li>
+                    <li class= "nav-item px-2 py-2">
+                        <div class="dropdown show">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-controller="Products" asp-action="Index">Products</a>
+                                <a class="dropdown-item" asp-controller="Consumers" asp-action="Index">Consumers</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
