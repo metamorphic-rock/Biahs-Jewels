@@ -22,7 +22,7 @@ public class ProductServices : IProductService
     }
     public List<Product> GetProducts()
     {
-        throw new NotImplementedException();
+        return _appDbContext.ProductItem.ToList();
     }
 
     public Product GetProductById(int id)

@@ -5,7 +5,7 @@ namespace BiahsJewels.Mvc.Data;
 
 public class AppDbContext : DbContext
 {
-    DbSet<Product> ProductItem { get; set; }
+    public DbSet<Product> ProductItem { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
