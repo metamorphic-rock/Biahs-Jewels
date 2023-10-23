@@ -37,7 +37,8 @@ public class ProductServices : IProductService
 
     public void SaveProduct(Product product)
     {
-        throw new NotImplementedException();
+        _appDbContext.ProductItem.Add(product);
+        _appDbContext.SaveChangesAsync();
     }
     public void EditProduct(Product product)
     {
