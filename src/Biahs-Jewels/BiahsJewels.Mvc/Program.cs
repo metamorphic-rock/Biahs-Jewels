@@ -1,4 +1,5 @@
 using BiahsJewels.Mvc.Data;
+using BiahsJewels.Mvc.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+//Services configuration
+builder.Services.AddScoped<IProductService,ProductServices>();
 
 var app = builder.Build();
 

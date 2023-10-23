@@ -5,12 +5,12 @@ namespace BiahsJewels.Mvc.Services;
 
 public interface IProductService
 {
-    public List<Product> GetProducts();
-    public Product GetProductById(int id);
-    public Product GetProductByName(string name);
-    public void SaveProduct(Product product);
-    public void EditProduct(Product product);
-    public void DeleteProduct(int id);
+    public Task<IEnumerable<Product>> GetProducts();
+    public Task<Product> GetProductById(int id);
+    public Task<Product> GetProductByName(string name);
+    public Task CreateProduct(Product product);
+    public Task EditProduct(Product product);
+    public Task DeleteProduct(int id);
 }
 public class ProductServices : IProductService
 {
@@ -20,32 +20,49 @@ public class ProductServices : IProductService
     {
         _appDbContext = appDbContext;
     }
-    public List<Product> GetProducts()
+    public async Task<IEnumerable<Product>> GetProducts()
     {
-        return _appDbContext.ProductItem.ToList();
+        var products = _appDbContext.ProductItem.ToList();
+        return products;
     }
 
-    public Product GetProductById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Product GetProductByName(string name)
+    public async Task<Product> GetProductById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public void SaveProduct(Product product)
+    public async Task<Product> GetProductByName(string name)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task CreateProduct(Product product)
     {
         _appDbContext.ProductItem.Add(product);
-        _appDbContext.SaveChangesAsync();
+        await _appDbContext.SaveChangesAsync();
     }
-    public void EditProduct(Product product)
+    public async Task EditProduct(Product product)
     {
-        throw new NotImplementedException();
+        var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == product.Id);
+        if (item == null)
+        {
+            _appDbContext.ProductItem.Add(product);
+            await _appDbContext.SaveChangesAsync();
+        }
+        else
+        {
+            _appDbContext.Update(item);
+            await _appDbContext.SaveChangesAsync();
+        }
     }
-    public void DeleteProduct(int id)
+    public async Task DeleteProduct(int id)
     {
-        throw new NotImplementedException();
+        var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == id);
+        if (item == null)
+        {
+            return; 
+        }
+
+        _appDbContext.ProductItem.Remove(item);
     }
 }

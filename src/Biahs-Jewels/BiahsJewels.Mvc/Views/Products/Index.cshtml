@@ -1,7 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using BiahsJewels.Mvc.Models
+@model IEnumerable<Product>
+
 @{
+    var product = new Product();
 }
 <div class="container">
     <div class="title text-md-start">
@@ -14,33 +15,73 @@
     </div>
 </div>
 
-<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Add your form elements here -->
-                <form id="createProductForm">
-                    <div class="form-group">
-                        <label for="productName">Product Name</label>
-                        <input type="text" class="form-control" id="productName" name="productName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="productDescription">Product Description</label>
-                        <textarea class="form-control" id="productDescription" name="productDescription" required></textarea>
-                    </div>
-                    <!-- Add more form fields as needed -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-outline-success" id="createProductBtn">Create Product</button>
-            </div>
-        </div>
-    </div>
+@await Html.PartialAsync("PartialViews/_CreateProductModal", product)
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>
+                    Id
+                </td>
+                <td>
+                    Name
+                </td>
+                <td>
+                    Image
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Price
+                </td>
+                <td>
+                    Rating
+                </td>
+                <td>
+                    Actions
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var productItem in Model)
+            {
+                <tr>
+                    <td>
+                        @productItem.Id
+                    </td>
+                    <td>
+                        @productItem.Name
+                    </td>
+                    <td>
+                        @productItem.ImagePath
+                    </td>
+                    <td>
+                        @productItem.Description
+                    </td>
+                    <td>
+                        @productItem.Price
+                    </td>
+                    <td>
+                        @productItem.Rating
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <button class="btn btn-toolbar">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <a>
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
