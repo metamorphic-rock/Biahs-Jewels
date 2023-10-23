@@ -7,4 +7,40 @@
     <div class="title text-md-start">
         <h2 class="position-relative d-inline-block">Products</h2>
     </div>
+    <div class="title text-md-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            <i class="fa fa-plus"> Add Product</i>
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Add your form elements here -->
+                <form id="createProductForm">
+                    <div class="form-group">
+                        <label for="productName">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="productName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Product Description</label>
+                        <textarea class="form-control" id="productDescription" name="productDescription" required></textarea>
+                    </div>
+                    <!-- Add more form fields as needed -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-success" id="createProductBtn">Create Product</button>
+            </div>
+        </div>
+    </div>
 </div>
