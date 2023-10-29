@@ -1,4 +1,6 @@
-﻿namespace BiahsJewels.Mvc.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BiahsJewels.Mvc.Models;
 
 public class Product
 {
@@ -8,4 +10,7 @@ public class Product
     public string Description { get; set; }
     public decimal Price { get; set; }
     public decimal? Rating { get; set; }
+
+    [NotMapped]
+    public IFormFile ImageFile { get; set; }
 }

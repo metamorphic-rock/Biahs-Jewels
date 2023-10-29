@@ -23,7 +23,9 @@
 
   <ItemGroup>
     <Folder Include="Models\Enums\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="Views\Shared\Components\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

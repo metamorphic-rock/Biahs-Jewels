@@ -22,22 +22,22 @@
         <thead>
             <tr>
                 <td>
-                    Id
+                    @Html.DisplayNameFor(model => model.Id)
                 </td>
                 <td>
-                    Name
+                    @Html.DisplayNameFor(model => model.Name)
                 </td>
                 <td>
-                    Image
+                    @Html.DisplayNameFor(model => model.ImagePath)
                 </td>
                 <td>
-                    Description
+                    @Html.DisplayNameFor(model => model.Description)
                 </td>
                 <td>
-                    Price
+                    @Html.DisplayNameFor(model => model.Price)
                 </td>
                 <td>
-                    Rating
+                    @Html.DisplayNameFor(model => model.Rating)
                 </td>
                 <td>
                     Actions
@@ -55,7 +55,12 @@
                         @productItem.Name
                     </td>
                     <td>
-                        @productItem.ImagePath
+                        <picture>
+                            <img src="~/images/@productItem.ImagePath" 
+                                 class="rounded mx-auto d-block"
+                                 style="width:180px;height:180px"
+                                 alt="@productItem.Name Image">
+                        </picture>
                     </td>
                     <td>
                         @productItem.Description
@@ -74,9 +79,12 @@
                                 </a>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <a>
-                                    <i class="fa fa-trash"></i>
-                                </a>
+                                <form asp-controller="Products" asp-action="DeleteProduct">
+                                    <input type="hidden" asp-for="@product.Id" />
+                                    <button type="submit">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </td>
