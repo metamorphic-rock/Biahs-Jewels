@@ -7,12 +7,12 @@ namespace BiahsJewels.Mvc.Controllers;
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IFileService _fileService;
 
-    public ProductsController(IProductService productService, IWebHostEnvironment webHostEnvironment)
+    public ProductsController(IProductService productService, IFileService fileService)
     {
         _productService = productService;
-        _webHostEnvironment = webHostEnvironment;
+        _fileService = fileService;
     }
 
     public async Task<IActionResult> Index()
@@ -21,26 +21,10 @@ public class ProductsController : Controller
         return View(products);
     }
 
-    private string UploadedFile(Product product)
-    {
-        var fileName = string.Empty;
-        if (product.ImageFile != null)
-        {
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-            fileName = Guid.NewGuid().ToString() + "_" + product.ImageFile.FileName;
-            var filePath = Path.Combine(uploadsFolder, fileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                product.ImageFile.CopyTo(fileStream);
-            }
-        }
-        return fileName;
-    }
-
     [HttpPost]
     public async Task<IActionResult> CreateProduct(Product product)
     {
-        product.ImagePath = UploadedFile(product);
+        product.ImagePath = await _fileService.UploadFile(product);
         if (product != null)
         {
             await _productService.CreateProduct(product);
