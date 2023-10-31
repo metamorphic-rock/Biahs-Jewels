@@ -48,7 +48,7 @@ public class ProductsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpDelete]
+    [HttpPost]
     public async Task<IActionResult> DeleteProduct(int id)
     {
         await _productService.DeleteProduct(id);

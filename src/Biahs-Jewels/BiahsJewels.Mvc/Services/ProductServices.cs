@@ -60,9 +60,10 @@ public class ProductServices : IProductService
         var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == id);
         if (item == null)
         {
-            return; 
+            throw new Exception("product not found");
         }
 
         _appDbContext.ProductItem.Remove(item);
+        _appDbContext.SaveChangesAsync();
     }
 }
