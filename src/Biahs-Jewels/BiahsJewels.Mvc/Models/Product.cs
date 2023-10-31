@@ -12,5 +12,5 @@ public class Product
     public decimal? Rating { get; set; }
 
     [NotMapped]
-    public IFormFile ImageFile { get; set; }
+    public IFormFile ProductImage { get; set; }
 }

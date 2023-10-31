@@ -34,30 +34,28 @@ public class FileService : IFileService
     public async Task<string> UploadFile(Product product)
     {
         var fileName = string.Empty;
-        if (product.ImageFile != null)
+        if (product.ProductImage != null)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
             fileName = Guid.NewGuid().ToString() + "_" + $"{CreateFileName(product.Name)}.png";
             var filePath = Path.Combine(uploadsFolder, fileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                product.ImageFile.CopyTo(fileStream);
+                product.ProductImage.CopyTo(fileStream);
             }
         }
         return fileName;
     }
 
-    public async Task DeleteFile(string productName)
+    public async Task DeleteFile(string fileName)
     {
-        var wwwrootImageFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-        var files = Directory.GetFiles(wwwrootImageFolder);
-        productName = CreateFileName(productName);
-        var fileToDelete = files.FirstOrDefault(x => x.Contains(productName));
-        if (File.Exists(fileToDelete))
+        var imageFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+        var fileToDeletePath = Path.Combine(imageFolderPath, fileName);
+        if (File.Exists(fileToDeletePath))
         {
             try
             {
-                File.Delete(fileToDelete);
+                File.Delete(fileToDeletePath);
             }
             catch 
             {

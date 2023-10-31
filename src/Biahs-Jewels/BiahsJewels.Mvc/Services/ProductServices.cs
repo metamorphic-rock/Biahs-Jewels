@@ -28,7 +28,7 @@ public class ProductServices : IProductService
 
     public async Task<Product> GetProductById(int id)
     {
-        throw new NotImplementedException();
+        return await _appDbContext.ProductItem.FindAsync(id);
     }
 
     public async Task<Product> GetProductByName(string name)

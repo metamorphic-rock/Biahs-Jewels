@@ -28,7 +28,7 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.ImagePath)
+                    @Html.DisplayNameFor(model => model.ProductImage)
                 </td>
                 <td>
                     @Html.DisplayNameFor(model => model.Description)
@@ -79,23 +79,11 @@
                                 </a>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                @*<button type="button" class="" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
-                                    
-                                </button>*@
                                 <button id="deleteProductBtn" class="deleteProductBtn" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                     data-product-id="@productItem.Id" data-product-name="@productItem.Name">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </div>
-                            @*@await Html.PartialAsync("PartialViews/_ConfirmDeleteModal", productItem)*@
-                            @*<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <form method="post" asp-action="DeleteProduct">
-                                    <input type="hidden" name="id" asp-for="@productItem.Id" id="delete-@productItem.Id"/>
-                                    <button type="submit" id="deleteProductBtn-@productItem.Id">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </form>                          
-                            </div>*@
                         </div>
                     </td>
                 </tr>
@@ -119,7 +107,6 @@
             <div class="modal-footer">
                 <form method="post" asp-controller="Products" asp-action="DeleteProduct" id="deleteProductForm">
                     <input type="hidden" name="id" value="" id="deleteModalInput" />
-                    <input type="hidden" name="productName" value="" id="modalInputProductName"/>
                     <button type="submit" class="btn btn-outline-danger" id="deleteProductBtn">Delete Product</button>
                 </form>
             </div>
@@ -131,7 +118,6 @@
     var deleteBtns = document.querySelectorAll('.deleteProductBtn');
     var deleteModalBtn = document.getElementById('deleteModalInput');
     var productNameSpan = document.getElementById('modalProductName');
-    var productNameInput = document.getElementById('modalInputProductName');
 
     deleteBtns.forEach(function (button) {
         button.addEventListener('click', function () {
@@ -139,7 +125,6 @@
             var productName = button.dataset.productName;
             productNameSpan.innerHTML = productName;
             deleteModalBtn.value = productId;
-            productNameInput.value = productName;
         });
     });
 </script>

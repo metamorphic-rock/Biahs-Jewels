@@ -33,9 +33,15 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> DeleteProduct(int id, string productName)
+    public async Task<IActionResult> DeleteProduct(int id)
     {
-        await _fileService.DeleteFile(productName);
+        var product = await _productService.GetProductById(id);
+        if (product != null)
+        {
+            var filePath = product.ImagePath;
+            await _fileService.DeleteFile(filePath);
+        }
+        
         await _productService.DeleteProduct(id);
         return RedirectToAction(nameof(Index));
     }
