@@ -119,6 +119,7 @@
             <div class="modal-footer">
                 <form method="post" asp-controller="Products" asp-action="DeleteProduct" id="deleteProductForm">
                     <input type="hidden" name="id" value="" id="deleteModalInput" />
+                    <input type="hidden" name="productName" value="" id="modalInputProductName"/>
                     <button type="submit" class="btn btn-outline-danger" id="deleteProductBtn">Delete Product</button>
                 </form>
             </div>
@@ -128,8 +129,9 @@
 
 <script>
     var deleteBtns = document.querySelectorAll('.deleteProductBtn');
-    var deleteModalBtn = document.getElementById('deleteModalInput')
+    var deleteModalBtn = document.getElementById('deleteModalInput');
     var productNameSpan = document.getElementById('modalProductName');
+    var productNameInput = document.getElementById('modalInputProductName');
 
     deleteBtns.forEach(function (button) {
         button.addEventListener('click', function () {
@@ -137,6 +139,7 @@
             var productName = button.dataset.productName;
             productNameSpan.innerHTML = productName;
             deleteModalBtn.value = productId;
+            productNameInput.value = productName;
         });
     });
 </script>

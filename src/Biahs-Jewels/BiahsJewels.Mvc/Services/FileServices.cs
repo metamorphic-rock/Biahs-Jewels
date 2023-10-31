@@ -6,6 +6,7 @@ namespace BiahsJewels.Mvc.Services;
 public interface IFileService
 {
     public Task<string> UploadFile(Product product);
+    public Task DeleteFile(string productName);
     public string CreateFileName(string fileName);
 }
 public class FileService : IFileService
@@ -36,7 +37,7 @@ public class FileService : IFileService
         if (product.ImageFile != null)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
-            fileName = Guid.NewGuid().ToString() + "_" + $"{product.Id}-{CreateFileName(product.Name)}.png";
+            fileName = Guid.NewGuid().ToString() + "_" + $"{CreateFileName(product.Name)}.png";
             var filePath = Path.Combine(uploadsFolder, fileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
@@ -44,5 +45,24 @@ public class FileService : IFileService
             }
         }
         return fileName;
+    }
+
+    public async Task DeleteFile(string productName)
+    {
+        var wwwrootImageFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+        var files = Directory.GetFiles(wwwrootImageFolder);
+        productName = CreateFileName(productName);
+        var fileToDelete = files.FirstOrDefault(x => x.Contains(productName));
+        if (File.Exists(fileToDelete))
+        {
+            try
+            {
+                File.Delete(fileToDelete);
+            }
+            catch 
+            {
+                throw new Exception("File cannot be found"); 
+            }
+        }
     }
 }
