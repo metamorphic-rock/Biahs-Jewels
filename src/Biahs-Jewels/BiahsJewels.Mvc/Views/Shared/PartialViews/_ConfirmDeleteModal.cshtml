@@ -11,9 +11,11 @@
             </div>
             <div class="modal-body">
                 <h2>Do you realy want to delete @Model.Name</h2>
+                @Model.Id
                 <!-- Add your form elements here -->
-                <form method="post" asp-controller="Products" asp-action="DeleteProduct" asp-route-id="@Model.Id" id="deleteProductForm">
+                <form method="post" asp-controller="Products" asp-action="DeleteProduct" id="deleteProductForm">
                     <div class="modal-footer">
+                        <input type="hidden" name="id" asp-for="@Model.Id" id="delete-@Model.Id" />
                         <button type="submit" class="btn btn-outline-danger" id="deleteProductBtn">Delete Product</button>
                     </div>
                 </form>
@@ -21,98 +23,3 @@
         </div>
     </div>
 </div>
-
-
-@*@using BiahsJewels.Mvc.Models
-@model IEnumerable<Product>
-
-@{
-    var product = new Product();
-}
-<div class="container">
-    <div class="title text-md-start">
-        <h2 class="position-relative d-inline-block">Products</h2>
-    </div>
-    <div class="title text-md-end">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">
-            <i class="fa fa-plus"> Add Product</i>
-        </button>
-    </div>
-</div>
-
-@await Html.PartialAsync("PartialViews/_CreateProductModal", product)
-@await Html.PartialAsync("PartialViews/_ConfirmDeleteModal", product)
-
-<div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Id)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Name)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.ImageFile)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Description)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Price)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Rating)
-                </td>
-                <td>
-                    Actions
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var productItem in Model)
-            {
-                <tr>
-                    <td>
-                        @productItem.Id
-                    </td>
-                    <td>
-                        @productItem.Name
-                    </td>
-                    <td>
-                        <picture>
-                            <img src="~/images/@productItem.ImagePath" 
-                                 class="rounded mx-auto d-block"
-                                 style="width:180px;height:180px"
-                                 alt="@productItem.Name Image">
-                        </picture>
-                    </td>
-                    <td>
-                        @productItem.Description
-                    </td>
-                    <td>
-                        @productItem.Price
-                    </td>
-                    <td>
-                        @productItem.Rating
-                    </td>
-                    <td>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <a>
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <button type="button" class="" data-bs-toggle="modal" data-bs-target="#deleteProductModal">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>*@
