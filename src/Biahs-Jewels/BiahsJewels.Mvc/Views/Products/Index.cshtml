@@ -40,8 +40,10 @@
                     @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Price)
                 </td>
                 <td>
-                <td>
                     @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Rating)
+                </td>
+                <td>
+                    Date Created
                 </td>
                 <td>
                     Actions
@@ -77,6 +79,9 @@
                     </td>
                     <td>
                         @productItem.Rating
+                    </td>
+                    <td>
+                        @productItem.DateCreated.ToLongDateString()
                     </td>
                     <td>
                         <div class="row">

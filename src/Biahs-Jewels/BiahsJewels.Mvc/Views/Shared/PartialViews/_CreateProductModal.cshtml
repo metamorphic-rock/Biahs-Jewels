@@ -1,6 +1,10 @@
 ﻿@using BiahsJewels.Mvc.Models.ViewModel
 @model CreateProductVm;
 
+@{
+    var dateCreated = DateTime.Now;
+}
+
 <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -13,6 +17,7 @@
             <div class="modal-body">
                 <!-- Add your form elements here -->
                 <form enctype="multipart/form-data" asp-controller="Products" asp-action="CreateProduct" id="createProductForm">
+                    <input type="hidden" asp-for="Product.DateCreated" value="@dateCreated"/>
                     <div class="form-group">
                         <label asp-for="Product.Name">Product Name</label>
                         <input asp-for="Product.Name" type="text" class="form-control" id="productName" required>
