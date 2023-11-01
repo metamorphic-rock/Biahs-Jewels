@@ -15,7 +15,9 @@
             <span class="text-primary"><i class="fas fa-star"></i></span>
             <span class="text-primary"><i class="fas fa-star"></i></span>
         </div>
-        <p class="text-capitalize mt-3 mb-1">@Model.Name</p>
+        <a class="text-decoration-none text-dark fw-bold" asp-controller="ProductDetails" asp-action="Index" asp-route-id="@Model.Id">
+            <p class="text-capitalize mt-3 mb-1">@Model.Name</p>
+        </a>
         <span class="fw-bold d-block">$@Model.Price</span>
         <a href="#" class="btn btn-primary mt-3">Add to Cart</a>
     </div>

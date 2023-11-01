@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BiahsJewels.Mvc.Services;
 using BiahsJewels.Mvc.Models;
+using BiahsJewels.Mvc.Models.ViewModel;
 
 namespace BiahsJewels.Mvc.Controllers;
 
@@ -18,7 +19,19 @@ public class ProductsController : Controller
     public async Task<IActionResult> Index()
     {
         var products = await _productService.GetProducts();
-        return View(products);
+        var productCategories = await _productService.GetProductCategories();
+
+        var productVm = new ProductVm()
+        {
+            Products = products.ToList(),
+            CreateProductVm = new CreateProductVm()
+            {
+                Product = new Product(),
+                ProductCategories = productCategories.ToList(),
+            },
+        };
+
+        return View(productVm);
     }
 
     public async Task<IActionResult> Edit(int id)

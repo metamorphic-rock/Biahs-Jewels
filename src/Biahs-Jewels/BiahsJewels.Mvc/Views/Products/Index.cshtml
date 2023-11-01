@@ -1,5 +1,5 @@
-﻿@using BiahsJewels.Mvc.Models
-@model IEnumerable<Product>
+﻿@using BiahsJewels.Mvc.Models.ViewModel
+@model ProductVm
 
 @{
     var product = new Product();
@@ -15,29 +15,33 @@
     </div>
 </div>
 
-@await Html.PartialAsync("PartialViews/_CreateProductModal", product)
+@await Html.PartialAsync("PartialViews/_CreateProductModal", Model.CreateProductVm)
 
 <div class="container">
     <table class="table table-striped">
         <thead>
             <tr>
                 <td>
-                    @Html.DisplayNameFor(model => model.Id)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Id)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Name)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.ProductImage)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().ProductImage)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category.CategoryName)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.Price)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Description)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.Rating)
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Price)
+                </td>
+                <td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Rating)
                 </td>
                 <td>
                     Actions
@@ -45,7 +49,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var productItem in Model)
+            @foreach(var productItem in Model.Products)
             {
                 <tr>
                     <td>
@@ -61,6 +65,9 @@
                                  style="width:180px;height:180px"
                                  alt="@productItem.Name Image">
                         </picture>
+                    </td>
+                    <td>
+                        @productItem.Category.CategoryName
                     </td>
                     <td>
                         @productItem.Description

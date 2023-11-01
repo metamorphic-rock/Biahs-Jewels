@@ -1,5 +1,5 @@
-﻿@using BiahsJewels.Mvc.Models
-@model Product
+﻿@using BiahsJewels.Mvc.Models.ViewModel
+@model CreateProductVm;
 
 <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -14,25 +14,31 @@
                 <!-- Add your form elements here -->
                 <form enctype="multipart/form-data" asp-controller="Products" asp-action="CreateProduct" id="createProductForm">
                     <div class="form-group">
-                        <label asp-for="Name">Product Name</label>
-                        <input asp-for="Name" type="text" class="form-control" id="productName" required>
+                        <label asp-for="Product.Name">Product Name</label>
+                        <input asp-for="Product.Name" type="text" class="form-control" id="productName" required>
                     </div>
                     <div class="form-group">
-                        <label>Category</label>
-                        <!--Dropdown to be implemented-->
+                        <label asp-for="Product.CategoryId" class="form-label">Select Option:</label>
+                        <select asp-for="Product.CategoryId" class="form-select" id="exampleSelect" aria-label="Select option">
+                            <option selected>Select an option</option>
+                            @foreach(var category in Model.ProductCategories)
+                            {
+                                <option value="@category.Id">@category.CategoryName</option>
+                            }                         
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Description">Product Description</label>
-                        <textarea asp-for="Description" class="form-control" id="productDescription" required></textarea>
+                        <label asp-for="Product.Description">Product Description</label>
+                        <textarea asp-for="Product.Description" class="form-control" id="productDescription" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Price">Price</label>
-                        <input asp-for="Price" class="form-control" id="productDescription" required>
+                        <label asp-for="Product.Price">Price</label>
+                        <input asp-for="Product.Price" class="form-control" id="productDescription" required>
                     </div>
                     <div class="form-group">
                         <div class="custom-file">
-                            <label asp-for="ProductImage" class="control-label"> Upload Image </label>
-                            <input asp-for="ProductImage" type="file" class="form-control" />
+                            <label asp-for="Product.ProductImage" class="control-label"> Upload Image </label>
+                            <input asp-for="Product.ProductImage" type="file" class="form-control" />
                         </div>         
                     </div>
                     <!-- Add more form fields as needed -->

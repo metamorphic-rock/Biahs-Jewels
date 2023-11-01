@@ -6,6 +6,7 @@ namespace BiahsJewels.Mvc.Services;
 public interface IProductService
 {
     public Task<IEnumerable<Product>> GetProducts();
+    public Task<IEnumerable<ProductCategory>> GetProductCategories();
     public Task<Product> GetProductById(int id);
     public Task<Product> GetProductByName(string name);
     public Task CreateProduct(Product product);
@@ -20,12 +21,17 @@ public class ProductServices : IProductService
     {
         _appDbContext = appDbContext;
     }
+
     public async Task<IEnumerable<Product>> GetProducts()
     {
         var products = _appDbContext.ProductItem.ToList();
         return products;
     }
 
+    public async Task<IEnumerable<ProductCategory>> GetProductCategories()
+    {
+        return _appDbContext.ProductCategory.ToList();
+    }
     public async Task<Product> GetProductById(int id)
     {
         return await _appDbContext.ProductItem.FindAsync(id);
