@@ -1,0 +1,53 @@
+﻿@model Product
+
+<div class="container">
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="title text-md-start">
+                <h2 class="position-relative d-inline-block">@Model.Name</h2>
+            </div>
+            <picture>
+             <img src="~/images/@Model.ImagePath"
+                class="rounded mx-auto d-block"
+                style="width:380px;height:380px"
+                alt="@Model.Name Image">
+            </picture>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-5">
+            </div>
+            <form enctype="multipart/form-data" asp-controller="Products" asp-action="EditProduct" id="editProductForm">
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="ImagePath" value="@Model.ImagePath" />
+                <div class="form-group">
+                    <label asp-for="Name">Product Name</label>
+                    <input asp-for="Name" type="text" class="form-control" id="productName" value="@Model.Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <!--Dropdown to be implemented-->
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Product Description</label>
+                    <textarea asp-for="Description" class="form-control" id="productDescription" value="@Model.Description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price">Price</label>
+                    <input asp-for="Price" class="form-control" id="productDescription" value="@Model.Price" required>
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <label asp-for="ProductImage" class="control-label"> Upload Image </label>
+                        <input asp-for="ProductImage" type="file" value="@Model.ProductImage" class="form-control" />
+                    </div>
+                </div>
+                
+                <br />
+
+                <a class="btn btn-secondary" asp-action="Index"> Cancel </a>
+                <button type="submit" class="btn btn-outline-success" id="createProductBtn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

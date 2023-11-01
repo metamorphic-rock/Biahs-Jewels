@@ -41,6 +41,7 @@ public class ProductServices : IProductService
         _appDbContext.ProductItem.Add(product);
         await _appDbContext.SaveChangesAsync();
     }
+
     public async Task EditProduct(Product product)
     {
         var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == product.Id);
@@ -49,12 +50,18 @@ public class ProductServices : IProductService
             _appDbContext.ProductItem.Add(product);
             await _appDbContext.SaveChangesAsync();
         }
-        else
-        {
-            _appDbContext.Update(item);
-            await _appDbContext.SaveChangesAsync();
-        }
+
+        item.Name = product.Name;
+        item.ProductImage = product.ProductImage;
+        item.Description = product.Description;
+        item.Price = product.Price;
+        item.Rating = product.Rating;
+        item.ImagePath = product.ImagePath;
+
+        _appDbContext.ProductItem.Update(item);
+        await _appDbContext.SaveChangesAsync();
     }
+
     public async Task DeleteProduct(int id)
     {
         var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == id);
@@ -64,6 +71,6 @@ public class ProductServices : IProductService
         }
 
         _appDbContext.ProductItem.Remove(item);
-        _appDbContext.SaveChangesAsync();
+        await _appDbContext.SaveChangesAsync();
     }
 }

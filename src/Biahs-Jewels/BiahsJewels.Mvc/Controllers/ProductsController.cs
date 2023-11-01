@@ -21,6 +21,12 @@ public class ProductsController : Controller
         return View(products);
     }
 
+    public async Task<IActionResult> Edit(int id)
+    {
+        var product = await _productService.GetProductById(id);
+        return View(product);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateProduct(Product product)
     {
@@ -33,13 +39,27 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
+    public async Task<IActionResult> EditProduct(Product product)
+    {
+        var item = await _productService.GetProductById(product.Id);
+        product.ImagePath = await _fileService.UpdateFile(item.ImagePath, product);
+
+        if (product != null)
+        {
+            await _productService.EditProduct(product);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
     public async Task<IActionResult> DeleteProduct(int id)
     {
         var product = await _productService.GetProductById(id);
         if (product != null)
         {
-            var filePath = product.ImagePath;
-            await _fileService.DeleteFile(filePath);
+            var fileName = product.ImagePath;
+            await _fileService.DeleteFile(fileName);
         }
         
         await _productService.DeleteProduct(id);
