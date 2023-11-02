@@ -39,6 +39,7 @@ public class InventoryService : IInventoryService
         {
             item.QuantityAvailable = item.QuantityAvailable + quantity;
         }
+
         await _appDbContext.SaveChangesAsync();
     }
 
