@@ -5,15 +5,17 @@ using BiahsJewels.Mvc.Models.ViewModel;
 
 namespace BiahsJewels.Mvc.Controllers;
 
-public class ProductsController : Controller
+public class ProductsInventoryController : Controller
 {
     private readonly IProductService _productService;
+    private readonly IInventoryService _inventoryService;
     private readonly IFileService _fileService;
 
-    public ProductsController(IProductService productService, IFileService fileService)
+    public ProductsInventoryController(IProductService productService, IFileService fileService, IInventoryService inventoryService)
     {
         _productService = productService;
         _fileService = fileService;
+        _inventoryService = inventoryService;
     }
 
     public async Task<IActionResult> Index()
@@ -76,6 +78,17 @@ public class ProductsController : Controller
         }
         
         await _productService.DeleteProduct(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddProductQuantity(int id, int quantity)
+    {
+        var product = await _productService.GetProductById(id);
+        if(product != null)
+        {
+            await _inventoryService.AddProductQuantity(id, quantity);
+        }
         return RedirectToAction(nameof(Index));
     }
 }

@@ -3,6 +3,24 @@
 
 @{
     var product = new Product();
+
+    string RatingDisplayHandler(decimal? rating)
+    {
+        if (!rating.HasValue || rating <= 0)
+        {
+            return "Not yet rated";
+        }
+        return rating.ToString();
+    }
+
+    int QuantityDisplayHandler(int? quantity)
+    {
+        if (!quantity.HasValue || quantity <= 0)
+        {
+            return 0;
+        }
+        return (int) quantity;
+    }
 }
 <div class="container">
     <div class="title text-md-start">
@@ -34,9 +52,6 @@
                     @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category.CategoryName)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Description)
-                </td>
-                <td>
                     @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Price)
                 </td>
                 <td>
@@ -44,6 +59,9 @@
                 </td>
                 <td>
                     Date Created
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Products.FirstOrDefault().QuantityAvailable)
                 </td>
                 <td>
                     Actions
@@ -72,26 +90,32 @@
                         @productItem.Category.CategoryName
                     </td>
                     <td>
-                        @productItem.Description
-                    </td>
-                    <td>
                         @productItem.Price
                     </td>
                     <td>
-                        @productItem.Rating
+                        @RatingDisplayHandler(productItem.Rating)
                     </td>
                     <td>
                         @productItem.DateCreated.ToLongDateString()
                     </td>
                     <td>
+                        @QuantityDisplayHandler(productItem.QuantityAvailable)                     
+                    </td>
+                    <td>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <a asp-action="Edit" asp-route-id="@productItem.Id">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mx-2">
+                                <a class="text-decoration-none text-dark fw-bold" asp-action="Edit" asp-route-id="@productItem.Id">
                                     <i class="fa fa-edit"></i>
                                 </a>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <button id="deleteProductBtn" class="deleteProductBtn" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mx-2">
+                                <button id="addProductQuantityBtn" class="addProductQuantityBtn transparent-Btn" data-bs-toggle="modal" data-bs-target="#addQuantityModal"
+                                    data-product-id="@productItem.Id" data-product-name="@productItem.Name">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mx-2">
+                                <button id="deleteProductBtn" class="deleteProductBtn transparent-Btn" data-bs-toggle="modal" data-bs-target="#deleteModal"
                                     data-product-id="@productItem.Id" data-product-name="@productItem.Name">
                                     <i class="fa fa-trash"></i>
                                 </button>
@@ -117,11 +141,42 @@
                 Are you sure you want to delete <span id="modalProductName"></span>?
             </div>
             <div class="modal-footer">
-                <form method="post" asp-controller="Products" asp-action="DeleteProduct" id="deleteProductForm">
+                <form method="post" asp-controller="ProductsInventory" asp-action="DeleteProduct" id="deleteProductForm">
                     <input type="hidden" name="id" value="" id="deleteModalInput" />
                     <button type="submit" class="btn btn-outline-danger" id="deleteProductBtn">Delete Product</button>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addQuantityModal" tabindex="-1" role="dialog" aria-labelledby="addQuantityModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Add Product Quantity</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-controller="ProductsInventory" asp-action="AddProductQuantity" id="addQuantityForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label"><p>How many <strong><span id="modalQuantityProductName"></span></strong> do you want to add?</p></label>
+                        <select name="quantity" class="form-select" id="exampleSelect" aria-label="Select Quantity">
+                            <option selected>Select an option</option>
+                            @for (int i = 1; i<26; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">               
+                    <input type="hidden" name="id" value="" id="addQuantityProdIdModalInput" />               
+                    <button type="submit" class="btn btn-outline-success" id="addQuantityBtn">Add Quantity</button>                
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -137,6 +192,19 @@
             var productName = button.dataset.productName;
             productNameSpan.innerHTML = productName;
             deleteModalBtn.value = productId;
+        });
+    });
+
+    var addQuantityBtns = document.querySelectorAll('.addProductQuantityBtn');
+    var addQuantityModalBtn = document.getElementById('addQuantityProdIdModalInput');
+    var productQuantityNameSpan = document.getElementById('modalQuantityProductName');
+
+    addQuantityBtns.forEach(function (button) {
+        button.addEventListener('click', function(){
+            var productId = button.dataset.productId;
+            var productName = button.dataset.productName;
+            productQuantityNameSpan.innerHTML = productName;
+            addQuantityModalBtn.value = productId;
         });
     });
 </script>

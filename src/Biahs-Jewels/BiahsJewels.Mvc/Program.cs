@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 
 //Services configuration
 builder.Services.AddScoped<IProductService,ProductServices>();
+builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IFileService,FileService>();
 
 var app = builder.Build();
