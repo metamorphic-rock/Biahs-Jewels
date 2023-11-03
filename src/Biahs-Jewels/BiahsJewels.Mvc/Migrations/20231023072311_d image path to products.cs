@@ -10,7 +10,7 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "ImagePath",
-                table: "Product",
+                table: "Products",
                 type: "nvarchar(max)",
                 nullable: true);
         }
@@ -19,7 +19,7 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "ImagePath",
-                table: "Product");
+                table: "Products");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace BiahsJewels.Mvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.Product", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.Products", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }

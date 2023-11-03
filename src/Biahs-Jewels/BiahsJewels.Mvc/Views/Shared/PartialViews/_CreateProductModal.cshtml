@@ -16,7 +16,7 @@
             </div>
             <div class="modal-body">
                 <!-- Add your form elements here -->
-                <form enctype="multipart/form-data" asp-controller="Products" asp-action="CreateProduct" id="createProductForm">
+                <form enctype="multipart/form-data" asp-controller="ProductsInventory" asp-action="CreateProduct" id="createProductForm">
                     <input type="hidden" asp-for="Product.DateCreated" value="@dateCreated"/>
                     <div class="form-group">
                         <label asp-for="Product.Name">Product Name</label>

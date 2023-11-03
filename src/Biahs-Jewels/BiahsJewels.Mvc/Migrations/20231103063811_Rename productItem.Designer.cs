@@ -24,7 +24,7 @@ namespace BiahsJewels.Mvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.Product", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.Products", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,10 +62,10 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategory", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +79,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -284,9 +284,9 @@ namespace BiahsJewels.Mvc.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.Product", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.Products", b =>
                 {
-                    b.HasOne("BiahsJewels.Mvc.Models.ProductCategory", "Category")
+                    b.HasOne("BiahsJewels.Mvc.Models.ProductCategories", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -346,7 +346,7 @@ namespace BiahsJewels.Mvc.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategory", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategories", b =>
                 {
                     b.Navigation("Products");
                 });

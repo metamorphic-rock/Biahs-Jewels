@@ -24,11 +24,11 @@ public class InventoryService : IInventoryService
 
     public async Task AddProductQuantity(int productId, int quantity)
     {
-        var item = await _appDbContext.Product.FindAsync(productId);
+        var item = await _appDbContext.Products.FindAsync(productId);
 
         if (item == null)
         {
-            throw new Exception("Product not found");
+            throw new Exception("Products not found");
         }
 
         if (item.QuantityAvailable == null)

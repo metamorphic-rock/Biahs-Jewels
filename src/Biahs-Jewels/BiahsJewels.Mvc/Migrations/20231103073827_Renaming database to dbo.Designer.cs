@@ -12,19 +12,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiahsJewels.Mvc.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231103063132_Added identity")]
-    partial class Addedidentity
+    [Migration("20231103073827_Renaming database to dbo")]
+    partial class Renamingdatabasetodbo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("dbo")
                 .HasAnnotation("ProductVersion", "6.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.Products", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,10 +63,10 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", "dbo");
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategories", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +80,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -106,7 +107,7 @@ namespace BiahsJewels.Mvc.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -131,7 +132,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -196,7 +197,7 @@ namespace BiahsJewels.Mvc.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -221,7 +222,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UserClaims", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -245,7 +246,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UserLogins", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -260,7 +261,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", "dbo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -281,12 +282,12 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UserTokens", "dbo");
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.Products", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.Product", b =>
                 {
-                    b.HasOne("BiahsJewels.Mvc.Models.ProductCategories", "Category")
+                    b.HasOne("BiahsJewels.Mvc.Models.ProductCategory", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -346,7 +347,7 @@ namespace BiahsJewels.Mvc.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategories", b =>
+            modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategory", b =>
                 {
                     b.Navigation("Products");
                 });

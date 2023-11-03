@@ -10,7 +10,7 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.AddColumn<int>(
                 name: "QuantityAvailable",
-                table: "Product",
+                table: "Products",
                 type: "int",
                 nullable: true);
         }
@@ -19,7 +19,7 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "QuantityAvailable",
-                table: "Product");
+                table: "Products");
         }
     }
 }
