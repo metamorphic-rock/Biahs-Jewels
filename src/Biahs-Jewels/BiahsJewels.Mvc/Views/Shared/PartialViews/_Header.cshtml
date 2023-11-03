@@ -5,18 +5,26 @@
                  style="width:80px;height:80px">
              <span class = "text-uppercase fw-lighter ms-2">Biah's Jewels</span>
 
-            <div class = "order-lg-2 nav-btns">
-                <button type = "button" class = "btn position-relative">
-                    <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
-                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
-                </button>
-                <button type = "button" class = "btn position-relative">
-                    <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>
-                    <span class = "position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products liked*@3</span>
-                </button>
-                <button type = "button" class = "btn position-relative">
-                    <i class = "fa fa-search"></i>
-                </button>
+            <div class="order-lg-2 nav-btns">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mx-2">
+                        <button type="button" class="btn position-relative">
+                            <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
+                            <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
+                        </button>
+                        <button type="button" class="btn position-relative">
+                            <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>
+                            <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products liked*@3</span>
+                        </button>
+                        <button type="button" class="btn position-relative">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mx-2">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
             </div>
 
             <button class = "navbar-toggler border-0" type = "button" data-bs-toggle = "collapse" data-bs-target = "#navMenu">

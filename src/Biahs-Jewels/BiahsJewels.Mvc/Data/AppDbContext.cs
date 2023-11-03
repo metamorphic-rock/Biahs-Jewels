@@ -1,11 +1,12 @@
 ﻿using BiahsJewels.Mvc.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiahsJewels.Mvc.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext
 {
-    public DbSet<Product> ProductItem { get; set; }
+    public DbSet<Product> Product { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -24,7 +25,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Product>()
             .HasOne(pi => pi.Category)
             .WithMany(pc => pc.Products)
-            .HasForeignKey(pi => pi.CategoryId) // Foreign key property in ProductItem
+            .HasForeignKey(pi => pi.CategoryId) // Foreign key property in Product
             .OnDelete(DeleteBehavior.Cascade); // Specify the delete behavior (Cascade)
         base.OnModelCreating(modelBuilder);
     }

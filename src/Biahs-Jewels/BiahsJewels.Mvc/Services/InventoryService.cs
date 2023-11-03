@@ -24,7 +24,7 @@ public class InventoryService : IInventoryService
 
     public async Task AddProductQuantity(int productId, int quantity)
     {
-        var item = await _appDbContext.ProductItem.FindAsync(productId);
+        var item = await _appDbContext.Product.FindAsync(productId);
 
         if (item == null)
         {

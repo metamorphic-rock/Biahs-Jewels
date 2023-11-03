@@ -62,7 +62,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ProductItem");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("BiahsJewels.Mvc.Models.ProductCategory", b =>

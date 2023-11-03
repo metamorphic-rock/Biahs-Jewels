@@ -51,7 +51,7 @@ namespace BiahsJewels.Mvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductItem");
+                    b.ToTable("Product");
                 });
 #pragma warning restore 612, 618
         }

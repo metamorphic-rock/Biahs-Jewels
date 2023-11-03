@@ -24,7 +24,7 @@ public class ProductServices : IProductService
 
     public async Task<IEnumerable<Product>> GetProducts()
     {
-        var products = _appDbContext.ProductItem.ToList();
+        var products = _appDbContext.Product.ToList();
         return products;
     }
 
@@ -34,7 +34,7 @@ public class ProductServices : IProductService
     }
     public async Task<Product> GetProductById(int id)
     {
-        return await _appDbContext.ProductItem.FindAsync(id);
+        return await _appDbContext.Product.FindAsync(id);
     }
 
     public async Task<Product> GetProductByName(string name)
@@ -44,16 +44,16 @@ public class ProductServices : IProductService
 
     public async Task CreateProduct(Product product)
     {
-        _appDbContext.ProductItem.Add(product);
+        _appDbContext.Product.Add(product);
         await _appDbContext.SaveChangesAsync();
     }
 
     public async Task EditProduct(Product product)
     {
-        var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == product.Id);
+        var item = _appDbContext.Product.FirstOrDefault(x => x.Id == product.Id);
         if (item == null)
         {
-            _appDbContext.ProductItem.Add(product);
+            _appDbContext.Product.Add(product);
             await _appDbContext.SaveChangesAsync();
         }
 
@@ -64,19 +64,19 @@ public class ProductServices : IProductService
         item.Rating = product.Rating;
         item.ImagePath = product.ImagePath;
 
-        _appDbContext.ProductItem.Update(item);
+        _appDbContext.Product.Update(item);
         await _appDbContext.SaveChangesAsync();
     }
 
     public async Task DeleteProduct(int id)
     {
-        var item = _appDbContext.ProductItem.FirstOrDefault(x => x.Id == id);
+        var item = _appDbContext.Product.FirstOrDefault(x => x.Id == id);
         if (item == null)
         {
             throw new Exception("product not found");
         }
 
-        _appDbContext.ProductItem.Remove(item);
+        _appDbContext.Product.Remove(item);
         await _appDbContext.SaveChangesAsync();
     }
 }

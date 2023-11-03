@@ -23,3 +23,27 @@ body {
     border: none;
     outline: none;
 }
+
+.back-button {
+    background-color: transparent;
+    border: none;
+    color: dimgray;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 17px;
+    margin: 10px 2px;
+    cursor: pointer;
+}
+
+.back-button::before {
+    content: "\2190"; /* Unicode character for left arrow */
+    margin-right: 5px;
+}
+.back-button:hover {
+    background-color: dimgray;
+    color: white;
+    border: thin;
+    border-radius: 18px;
+}

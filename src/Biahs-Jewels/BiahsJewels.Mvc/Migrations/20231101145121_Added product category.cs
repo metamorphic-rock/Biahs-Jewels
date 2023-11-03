@@ -10,7 +10,7 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.AddColumn<int>(
                 name: "CategoryId",
-                table: "ProductItem",
+                table: "Product",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -30,12 +30,12 @@ namespace BiahsJewels.Mvc.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductItem_CategoryId",
-                table: "ProductItem",
+                table: "Product",
                 column: "CategoryId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ProductItem_ProductCategory_CategoryId",
-                table: "ProductItem",
+                table: "Product",
                 column: "CategoryId",
                 principalTable: "ProductCategory",
                 principalColumn: "Id",
@@ -46,18 +46,18 @@ namespace BiahsJewels.Mvc.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_ProductItem_ProductCategory_CategoryId",
-                table: "ProductItem");
+                table: "Product");
 
             migrationBuilder.DropTable(
                 name: "ProductCategory");
 
             migrationBuilder.DropIndex(
                 name: "IX_ProductItem_CategoryId",
-                table: "ProductItem");
+                table: "Product");
 
             migrationBuilder.DropColumn(
                 name: "CategoryId",
-                table: "ProductItem");
+                table: "Product");
         }
     }
 }

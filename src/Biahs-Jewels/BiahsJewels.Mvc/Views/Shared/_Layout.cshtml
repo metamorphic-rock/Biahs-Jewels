@@ -16,6 +16,10 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (Context.Request.Path.StartsWithSegments("/Store/ProductDetail") || Context.Request.Path.Equals("/ShoppingCart") || Context.Request.Path.Equals("/ProductsLiked"))
+            {
+                <button class="back-button" id="backBtn" onclick="goBack()">Back</button>
+            }
             @RenderBody()
         </main>
     </div>
