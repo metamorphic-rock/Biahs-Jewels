@@ -2,4 +2,5 @@
 
 public class Consumer
 {
+    public int Id { get; set; }
 }

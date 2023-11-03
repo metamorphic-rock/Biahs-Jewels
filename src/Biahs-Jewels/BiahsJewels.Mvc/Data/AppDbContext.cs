@@ -1,11 +1,12 @@
-﻿using BiahsJewels.Mvc.Models;
+﻿using BiahsJewels.Mvc.Areas.Identity.Data;
+using BiahsJewels.Mvc.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiahsJewels.Mvc.Data;
 
-public class AppDbContext : IdentityDbContext
+public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
@@ -32,7 +33,7 @@ public class AppDbContext : IdentityDbContext
 
         modelBuilder.HasDefaultSchema("dbo");
 
-        modelBuilder.Entity<IdentityUser>(entity => {
+        modelBuilder.Entity<ApplicationUser>(entity => {
             entity.ToTable(name: "Users");
         });
         modelBuilder.Entity<IdentityRole>(entity =>
