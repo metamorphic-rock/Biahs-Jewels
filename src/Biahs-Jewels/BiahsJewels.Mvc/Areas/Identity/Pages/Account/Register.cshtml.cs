@@ -141,17 +141,17 @@ namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                var consumer = new Consumer()
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    AccountId = user.Id
-                };
-                await _consumerService.CreateConsumerAsync(consumer);
-
                 if (result.Succeeded)
                 {
+                    var consumer = new Consumer()
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        AccountId = user.Id
+                    };
+                    await _consumerService.CreateConsumerAsync(consumer);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

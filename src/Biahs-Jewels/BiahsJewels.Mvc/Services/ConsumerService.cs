@@ -7,7 +7,7 @@ namespace BiahsJewels.Mvc.Services;
 public interface IConsumerService
 {
     public Task CreateConsumerAsync(Consumer consumer);
-    public Task UpdateConsumerDetailsAsync(int consumerId,Consumer consumer);
+    public Task UpdateConsumerProfileAsync(int consumerId,Consumer consumer);
     public Task<IEnumerable<Consumer>> GetAllConsumerAsync();
 }
 public class ConsumerService : IConsumerService
@@ -34,7 +34,7 @@ public class ConsumerService : IConsumerService
         return consumers;
     }
 
-    public async Task UpdateConsumerDetailsAsync(int consumerId, Consumer consumer)
+    public async Task UpdateConsumerProfileAsync(int consumerId, Consumer consumer)
     {
         throw new NotImplementedException();
     }
