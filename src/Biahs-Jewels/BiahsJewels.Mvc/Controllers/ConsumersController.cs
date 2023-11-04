@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BiahsJewels.Mvc.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BiahsJewels.Mvc.Controllers;
 
 public class ConsumersController : Controller
 {
-    public IActionResult Index()
+    private readonly IConsumerService _consumerService;
+
+    public ConsumersController(IConsumerService consumerService)
     {
-        return View();
+        _consumerService = consumerService;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var consumers = await _consumerService.GetAllConsumerAsync();
+        return View(consumers);
     }
 }

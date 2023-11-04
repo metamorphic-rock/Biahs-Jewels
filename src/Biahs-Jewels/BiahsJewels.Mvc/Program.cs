@@ -19,6 +19,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddScoped<IProductService,ProductServices>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IFileService,FileService>();
+builder.Services.AddScoped<IConsumerService,ConsumerService>();
 
 var app = builder.Build();
 

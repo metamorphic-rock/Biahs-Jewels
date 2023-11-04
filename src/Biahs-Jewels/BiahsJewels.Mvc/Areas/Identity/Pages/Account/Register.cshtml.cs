@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using BiahsJewels.Mvc.Areas.Identity.Data;
+using BiahsJewels.Mvc.Services;
+using BiahsJewels.Mvc.Models;
 
 namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
 {
@@ -31,13 +33,15 @@ namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConsumerService _consumerService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConsumerService consumerService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +49,7 @@ namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _consumerService = consumerService;
         }
 
         /// <summary>
@@ -135,6 +140,15 @@ namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                var consumer = new Consumer()
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    AccountId = user.Id
+                };
+                await _consumerService.CreateConsumerAsync(consumer);
 
                 if (result.Succeeded)
                 {
