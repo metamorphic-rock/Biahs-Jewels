@@ -2,9 +2,11 @@
 using BiahsJewels.Mvc.Services;
 using BiahsJewels.Mvc.Models;
 using BiahsJewels.Mvc.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BiahsJewels.Mvc.Controllers;
 
+[Authorize]
 public class ProductsInventoryController : Controller
 {
     private readonly IProductService _productService;

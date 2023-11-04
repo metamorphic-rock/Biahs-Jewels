@@ -7,7 +7,6 @@ public class ApplicationUser : IdentityUser
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string Email { get; set; }
     public int? ConsumerId { get; set; }
     public Consumer? Consumer { get; set; }
 }
