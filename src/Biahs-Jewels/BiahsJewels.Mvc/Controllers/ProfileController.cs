@@ -15,12 +15,20 @@ public class ProfileController : Controller
         _consumerService = consumerService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var consumerId = HttpContext.Session.GetInt32("consumerId");
         if(consumerId.HasValue)
         {
-            var profile = _consumerService.GetConsumerByConsumerIdAsync(consumerId.Value);
+            var consumer = await _consumerService.GetConsumerByConsumerIdAsync(consumerId.Value);
+            var profile = new Profile()
+            {
+                Id = consumer.Id,
+                FirstName = consumer.FirstName,
+                LastName = consumer.LastName,
+                Email = consumer.Email,
+            };
+
             return View(profile);
         }
 
