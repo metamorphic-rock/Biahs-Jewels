@@ -48,6 +48,7 @@ public class ProductsInventoryController : Controller
     public async Task<IActionResult> CreateProduct(Product product)
     {
         product.ImagePath = await _fileService.UploadFile(product);
+        product.QuantityAvailable = 1;
         if (product != null)
         {
             await _productService.CreateProduct(product);

@@ -3,6 +3,9 @@ using BiahsJewels.Mvc.Services;
 using BiahsJewels.Mvc.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,12 @@ builder.Services.AddScoped<IProductService,ProductServices>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IFileService,FileService>();
 builder.Services.AddScoped<IConsumerService,ConsumerService>();
+
+builder.Services.AddSession(options =>
+{
+    // Set session timeout (optional)
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+});
 
 var app = builder.Build();
 

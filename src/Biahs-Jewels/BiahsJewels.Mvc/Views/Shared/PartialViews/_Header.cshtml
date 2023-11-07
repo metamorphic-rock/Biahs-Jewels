@@ -7,29 +7,27 @@
 
             <div class="order-lg-2 nav-btns">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mx-2">
-                        <button type="button" class="btn position-relative">
-                            <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
-                            <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
-                        </button>
-                        <button type="button" class="btn position-relative">
-                            <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>
-                            <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products liked*@3</span>
-                        </button>
-                        <button type="button" class="btn position-relative">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mx-2">
+                            <button type="button" class="btn position-relative">
+                                <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
+                                <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
+                            </button>
+                            <button type="button" class="btn position-relative">
+                                <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>
+                                <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products liked*@3</span>
+                            </button>
+                            <button type="button" class="btn position-relative">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    }
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mx-2">
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
-
-            <button class = "navbar-toggler border-0" type = "button" data-bs-toggle = "collapse" data-bs-target = "#navMenu">
-                <span class = "navbar-toggler-icon"></span>
-            </button>
 
             <div class = "collapse navbar-collapse order-lg-1" id = "navMenu">
                 <ul class = "navbar-nav mx-auto text-center">
@@ -40,24 +38,30 @@
                         <a class="nav-link text-uppercase text-dark" asp-controller="Blogs" asp-action="Index">Blogs</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" asp-controller="Profile" asp-action="Index">My Profile</a>
+                        <a class="nav-link text-uppercase text-dark" asp-controller="AboutUs" asp-action="Index">About Us</a>
                     </li>
                     <li class = "nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" asp-controller="ContactUs" asp-action="Index">Contact Us</a>
                     </li>
-                    <li class= "nav-item px-2 py-2">
-                        <div class="dropdown show">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Admin
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" asp-controller="ProductsInventory" asp-action="Index">Inventory</a>
-                                <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
-                                <a class="dropdown-item" asp-controller="Consumers" asp-action="Index">Consumers</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class= "nav-item px-2 py-2">
+                            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="dropdown show">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="ProductsInventory" asp-action="Index">Inventory</a>
+                                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Orders</a>
+                                    <a class="dropdown-item" asp-controller="Consumers" asp-action="Index">Consumers</a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                        </li>
+                    }
+            </ul>
+        </div>
     </div>
 </nav>

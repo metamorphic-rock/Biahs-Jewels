@@ -9,6 +9,8 @@ public interface IConsumerService
     public Task CreateConsumerAsync(Consumer consumer);
     public Task UpdateConsumerProfileAsync(int consumerId,Consumer consumer);
     public Task<IEnumerable<Consumer>> GetAllConsumerAsync();
+    public Task<Consumer> GetConsumerByAccountIdAsync(string accountId);
+    public Task<Consumer> GetConsumerByConsumerIdAsync(int consumerId);
 }
 public class ConsumerService : IConsumerService
 {
@@ -32,6 +34,17 @@ public class ConsumerService : IConsumerService
     {
         var consumers = _appDbContext.Consumers.ToList();
         return consumers;
+    }
+    public async Task<Consumer> GetConsumerByAccountIdAsync(string accountId)
+    {
+        var consumer = _appDbContext.Consumers.FirstOrDefault(consumer => consumer.AccountId == accountId);
+        return consumer;
+    }
+
+    public async Task<Consumer> GetConsumerByConsumerIdAsync(int consumerId)
+    {
+        var consumer = await _appDbContext.Consumers.FindAsync(consumerId);
+        return consumer;
     }
 
     public async Task UpdateConsumerProfileAsync(int consumerId, Consumer consumer)
