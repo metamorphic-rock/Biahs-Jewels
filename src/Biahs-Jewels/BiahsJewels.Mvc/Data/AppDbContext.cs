@@ -12,6 +12,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ProductCategory> ProductCategories { get; set; }
     public DbSet<Consumer> Consumers { get; set; }
     public DbSet<Address> Addresses { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

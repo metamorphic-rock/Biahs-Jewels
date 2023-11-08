@@ -35,4 +35,9 @@ public class ProfileController : Controller
         var newProfile = new Profile();
         return View(newProfile);
     }
+
+    public async Task<IActionResult> Edit()
+    {
+        return View();
+    }
 }

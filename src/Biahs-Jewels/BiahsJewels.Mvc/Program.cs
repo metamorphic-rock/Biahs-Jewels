@@ -23,6 +23,8 @@ builder.Services.AddScoped<IProductService,ProductServices>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IFileService,FileService>();
 builder.Services.AddScoped<IConsumerService,ConsumerService>();
+builder.Services.AddScoped<IOrderService,OrderService>();
+builder.Services.AddScoped<IShoppingCartService,ShoppingCartService>();
 
 builder.Services.AddSession(options =>
 {

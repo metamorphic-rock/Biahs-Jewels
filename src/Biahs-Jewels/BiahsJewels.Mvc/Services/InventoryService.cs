@@ -19,7 +19,12 @@ public class InventoryService : IInventoryService
 
     public async Task<int> GetProductQuantity(int productId)
     {
-        throw new NotImplementedException();
+        var item = await _appDbContext.Products.FindAsync(productId);
+        if(item == null)
+        {
+            throw new Exception("Product can't found");
+        }
+        return (int)item.QuantityAvailable;
     }
 
     public async Task AddProductQuantity(int productId, int quantity)
@@ -28,7 +33,7 @@ public class InventoryService : IInventoryService
 
         if (item == null)
         {
-            throw new Exception("Products not found");
+            throw new Exception("Product not found");
         }
 
         if (item.QuantityAvailable == null)
