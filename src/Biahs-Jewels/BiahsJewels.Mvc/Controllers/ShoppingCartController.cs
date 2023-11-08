@@ -19,9 +19,11 @@ public class ShoppingCartController : Controller
         _shoppingCartService = shoppingCartService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var consumerId = HttpContext.Session.GetInt32("consumerId");
+        var shoppingCart = await _shoppingCartService.GetShoppingCartAsync((int)consumerId);
+        return View(shoppingCart);
     }
 
     [HttpPost]

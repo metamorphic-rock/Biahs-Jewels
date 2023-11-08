@@ -5,7 +5,7 @@ namespace BiahsJewels.Mvc.Services;
 
 public interface IShoppingCartService
 {
-    public Task CreateShoppingCartForConsumerAsync(int consumerId);
+    public Task<ShoppingCart> CreateShoppingCartForConsumerAsync(int consumerId);
     public Task<ShoppingCart> GetShoppingCartAsync(int consumerId);
     public Task AddItemToShoppingCartAsync(Product product, int consumerId);
 }
@@ -17,7 +17,7 @@ public class ShoppingCartService : IShoppingCartService
         _appDbContext = appDbContext;
     }
 
-    public async Task CreateShoppingCartForConsumerAsync(int consumerId)
+    public async Task<ShoppingCart> CreateShoppingCartForConsumerAsync(int consumerId)
     {
         var item = _appDbContext.ShoppingCarts.FirstOrDefault(x => x.ConsumerId == consumerId);
         if(item == null)
@@ -25,12 +25,14 @@ public class ShoppingCartService : IShoppingCartService
             var cart = new ShoppingCart()
             {
                 ConsumerId = consumerId,
-                ProductsInCart = new List<Product>()
+                ProductsInCart = new List<ProductInCart>()
             };
             _appDbContext.ShoppingCarts.Add(cart);
             await _appDbContext.SaveChangesAsync();
+            return GetShoppingCartAsync(consumerId).Result;
         };
 
+        return item;
     }
 
     public async Task<ShoppingCart> GetShoppingCartAsync(int consumerId)
@@ -40,24 +42,21 @@ public class ShoppingCartService : IShoppingCartService
 
     public async Task AddItemToShoppingCartAsync(Product product, int consumerId)
     {
-        var item = await _appDbContext.ShoppingCarts.FindAsync(consumerId);
+        var item = await GetShoppingCartAsync(consumerId);
         if( item == null)
         {
-            CreateShoppingCartForConsumerAsync(consumerId);
-        }
+            item = CreateShoppingCartForConsumerAsync(consumerId).Result;
+        };
+        item.ProductsInCart = new List<ProductInCart>();
 
-        item = GetShoppingCartAsync(consumerId).Result;
-        item.ProductsInCart = new List<Product>();
-
-        var productToAdd = new Product()
+        var productToAdd = new ProductInCart()
         {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            ImagePath = product.ImagePath,
-            Price = product.Price,
+            ProductId = product.Id,
+            ShoppingCartId = item.Id,
+            Quantity = 1
         };
 
-        item.ProductsInCart.Add(productToAdd);
+        _appDbContext.ProductInCarts.Add(productToAdd);
+        await _appDbContext.SaveChangesAsync();
     }
 }
