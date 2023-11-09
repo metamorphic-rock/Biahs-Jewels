@@ -8,19 +8,22 @@ public interface IShoppingCartService
     public Task<ShoppingCart> CreateShoppingCartForConsumerAsync(int consumerId);
     public Task<ShoppingCart> GetShoppingCartAsync(int consumerId);
     public Task AddItemToShoppingCartAsync(Product product, int consumerId);
+    public Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId);
 }
 public class ShoppingCartService : IShoppingCartService
 {
     private readonly AppDbContext _appDbContext;
-    public ShoppingCartService(AppDbContext appDbContext)
+    private readonly IProductService _productService;
+    public ShoppingCartService(AppDbContext appDbContext, IProductService productService)
     {
         _appDbContext = appDbContext;
+        _productService = productService;
     }
 
     public async Task<ShoppingCart> CreateShoppingCartForConsumerAsync(int consumerId)
     {
         var item = _appDbContext.ShoppingCarts.FirstOrDefault(x => x.ConsumerId == consumerId);
-        if(item == null)
+        if (item == null)
         {
             var cart = new ShoppingCart()
             {
@@ -43,7 +46,7 @@ public class ShoppingCartService : IShoppingCartService
     public async Task AddItemToShoppingCartAsync(Product product, int consumerId)
     {
         var item = await GetShoppingCartAsync(consumerId);
-        if( item == null)
+        if (item == null)
         {
             item = CreateShoppingCartForConsumerAsync(consumerId).Result;
         };
@@ -52,11 +55,20 @@ public class ShoppingCartService : IShoppingCartService
         var productToAdd = new ProductInCart()
         {
             ProductId = product.Id,
+            Product = product,
             ShoppingCartId = item.Id,
-            Quantity = 1
+            Quantity = 1,
+            TotalPrice = product.Price * 1,
         };
+
+        item.ProductsInCart.Add(productToAdd);
 
         _appDbContext.ProductInCarts.Add(productToAdd);
         await _appDbContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId)
+    {
+        return _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId);;
     }
 }

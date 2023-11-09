@@ -1,4 +1,5 @@
 ﻿using BiahsJewels.Mvc.Data;
+using BiahsJewels.Mvc.Models.ViewModel;
 using BiahsJewels.Mvc.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +23,17 @@ public class ShoppingCartController : Controller
     public async Task<IActionResult> Index()
     {
         var consumerId = HttpContext.Session.GetInt32("consumerId");
+        var products = await _productService.GetProducts();
+        var productCategories = await _productService.GetProductCategories();
         var shoppingCart = await _shoppingCartService.GetShoppingCartAsync((int)consumerId);
-        return View(shoppingCart);
+        var itemsInCart = await _shoppingCartService.GetProductInCartAsync(shoppingCart.Id);
+
+        var shoppingCartItem = new ShoppingCartVM()
+        {
+            ProductsInCart = itemsInCart
+        };
+
+        return View(shoppingCartItem);
     }
 
     [HttpPost]

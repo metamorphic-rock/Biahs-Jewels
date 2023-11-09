@@ -1,4 +1,5 @@
-﻿@model ShoppingCart
+﻿@using BiahsJewels.Mvc.Models.ViewModel;
+@model ShoppingCartVM
 @{
 }
 <div class="container">
@@ -7,7 +8,22 @@
     </div>
 </div>
 <div class="container">
-    <h3>Items in Cart: </h3>
+    <h3>Items in Cart: @Model.ProductsInCart.Count()</h3>
 
-        @Model.ProductsInCart;
+    @foreach (var item in @Model.ProductsInCart)
+    {
+        <div class="col-md-8 col-lg-8 col-xl-5 p-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>@item.Product.Name</h4>
+                    <p>@item.Product.Category.CategoryName</p>
+                </div>
+                <div class="card-body">
+                    <p>
+                        @item.Product.Description
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
