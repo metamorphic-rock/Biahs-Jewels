@@ -16,7 +16,7 @@
     </header>
     <div class="container">
         <main role="main">
-            @if (Context.Request.Path.StartsWithSegments("/Store/ProductDetail") || Context.Request.Path.Equals("/ShoppingCart") || Context.Request.Path.Equals("/ProductsLiked"))
+            @if (Context.Request.Path.StartsWithSegments("/Store/ProductDetail") || Context.Request.Path.Equals("/ShoppingCart") || Context.Request.Path.Equals("/ProductsLiked") || Context.Request.Path.Equals("/Profile"))
             {
                 <button class="back-button" id="backBtn" onclick="goBack()">Back</button>
             }

@@ -276,3 +276,9 @@ footer {
         border-bottom: none;
     }
 }
+
+/*Profile Details table*/
+.vertical-table th, .vertical-table td {
+    text-align: left;
+    vertical-align: top;
+}

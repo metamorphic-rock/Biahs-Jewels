@@ -13,7 +13,9 @@ public class Consumer
     [NotMapped]
     public IFormFile? ProfilePicture { get; set; }
     public DateTime? BirthDay { get; set; }
-    public string? MobileNumber { get; set; }
+    public DateTime AccountDateCreated { get; set; }
+    public string? PrimaryContactNumber { get; set; }
+    public string? SecondaryContactNumber { get; set; }
     public Address? Address { get; set; }
     public ApplicationUser ApplicationAccount { get; set; }
     public string AccountId { get; set; }

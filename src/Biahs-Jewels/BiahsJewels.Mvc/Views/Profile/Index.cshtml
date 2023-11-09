@@ -2,6 +2,14 @@
 
 @model Profile
 @{
+    string CheckIfFieldIsNotSet(string field)
+    {
+        if(string.IsNullOrEmpty(field))
+        {
+            return "Not yet setup";
+        }
+        return field;
+    }
 }
 <div class="container">
     <div class="title text-md-start">
@@ -9,6 +17,104 @@
     </div>
 </div>
 <div class="container">
-    ConsumerId: @Model.Id
-    Full Name: @($"{Model.FirstName} {Model.LastName}")
+    <div class="row">
+        <div class="col-md-5">
+            <div class="mt-5">
+            </div>
+            <h4 class="position-relative d-inline-block">@($"{Model.FirstName} {Model.LastName}")</h4>
+            <h5><i>@Model.Email</i></h5>
+            <picture>
+                <img src="@(string.IsNullOrEmpty(Model.ProfilePicturePath) ? "/images/logos/profile-icon.png" : Model.ProfilePicturePath )"
+                     alt="Profile Picture"
+                     class="rounded mx-auto d-block"
+                     style="width:300px;height:300px" />
+            </picture>
+        </div>
+        <div class="col-md-7">
+            <div class="mt-5">
+            </div>
+            <div class="card">
+                <table class="table vertical-table">
+                    <tbody>
+                        <tr>
+                            <th>Birth Day</th>
+                            <td>@CheckIfFieldIsNotSet(Model.BirthDay?.ToString("d MMM yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <th>Account Date Created</th>
+                            <td>@CheckIfFieldIsNotSet(Model.AccountDateCreated.ToString("d MMM yyyy"))</td>
+                        </tr>
+                        <tr>
+                            <th>Primary Address</th>
+                            <td>@CheckIfFieldIsNotSet(Model.Address?.PrimaryAddress)</td>
+                        </tr>
+                        <tr>
+                            <th>Secondary Address</th>
+                            <td>@CheckIfFieldIsNotSet(Model.Address?.SecondaryAddress)</td>
+                        </tr>
+                        <tr>
+                            <th>Primary Contact Number</th>
+                            <td>@CheckIfFieldIsNotSet(Model?.PrimaryContactNumber)</td>
+                        </tr>
+                        <tr>
+                            <th>Secondary Contact Number</th>
+                            <td>@CheckIfFieldIsNotSet(Model?.SecondaryContactNumber)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="card-footer">
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+                        Update Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateProfileModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Profile</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" asp-controller="Profile" asp-action="UpdateConsumerProfile" id="updateProfileForm">
+                <input type="hidden" asp-for="Id" name="consumerId"/>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="FirstName"></label>
+                        <input class="form-control" asp-for="FirstName" type="text" />
+
+                        <label asp-for="LastName"></label>
+                        <input class="form-control" asp-for="LastName" type="text" />
+
+                        <label asp-for="Email"></label>
+                        <input class="form-control" asp-for="Email" type="text" />
+
+                        <label asp-for="BirthDay"></label>
+                        <input class="form-control" asp-for="BirthDay" type="date" />
+
+                        <label asp-for="Address.PrimaryAddress"></label>
+                        <input class="form-control" asp-for="Address.PrimaryAddress" type="text" />
+
+                        <label asp-for="Address.SecondaryAddress"></label>
+                        <input class="form-control" asp-for="Address.SecondaryAddress" type="text" />
+
+                        <label asp-for="PrimaryContactNumber"></label>
+                        <input class="form-control" asp-for="PrimaryContactNumber" type="text" />
+
+                        <label asp-for="SecondaryContactNumber"></label>
+                        <input class="form-control" asp-for="SecondaryContactNumber" type="text" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id" value="" id="profileIdModalInput" />
+                    <button type="submit" class="btn btn-outline-success" id="updateProfileBtn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

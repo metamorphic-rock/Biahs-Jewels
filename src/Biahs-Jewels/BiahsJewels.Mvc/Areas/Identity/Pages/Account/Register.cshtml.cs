@@ -148,7 +148,8 @@ namespace BiahsJewels.Mvc.Areas.Identity.Pages.Account
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,
-                        AccountId = user.Id
+                        AccountId = user.Id,
+                        AccountDateCreated = DateTime.Now,
                     };
                     await _consumerService.CreateConsumerAsync(consumer);
 

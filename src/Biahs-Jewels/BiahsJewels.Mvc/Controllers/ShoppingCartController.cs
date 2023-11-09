@@ -25,7 +25,14 @@ public class ShoppingCartController : Controller
         var consumerId = HttpContext.Session.GetInt32("consumerId");
         var products = await _productService.GetProducts();
         var productCategories = await _productService.GetProductCategories();
+
         var shoppingCart = await _shoppingCartService.GetShoppingCartAsync((int)consumerId);
+
+        if(shoppingCart == null)
+        {
+            shoppingCart = await _shoppingCartService.CreateShoppingCartForConsumerAsync((int)consumerId);
+        }
+
         var itemsInCart = await _shoppingCartService.GetProductInCartAsync(shoppingCart.Id);
 
         var shoppingCartItem = new ShoppingCartVM()

@@ -21,12 +21,18 @@ public class ProfileController : Controller
         if(consumerId.HasValue)
         {
             var consumer = await _consumerService.GetConsumerByConsumerIdAsync(consumerId.Value);
+            var adresses = await _consumerService.GetConsumerAddressByConsumerIdAsync(consumerId.Value);
             var profile = new Profile()
             {
                 Id = consumer.Id,
                 FirstName = consumer.FirstName,
                 LastName = consumer.LastName,
                 Email = consumer.Email,
+                BirthDay = consumer.BirthDay,
+                Address = adresses,
+                AccountDateCreated = consumer.AccountDateCreated,
+                PrimaryContactNumber = consumer.PrimaryContactNumber,
+                SecondaryContactNumber = consumer.SecondaryContactNumber,               
             };
 
             return View(profile);
@@ -36,6 +42,20 @@ public class ProfileController : Controller
         return View(newProfile);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateConsumerProfile(int consumerId, Profile profile)
+    {
+        var adresses = await _consumerService.GetConsumerAddressByConsumerIdAsync(consumerId);
+
+        var profileToUpdate = await _consumerService.GetConsumerByConsumerIdAsync(consumerId);
+
+        if (profileToUpdate != null)
+        {
+            await _consumerService.UpdateConsumerProfileAsync(consumerId, profile);
+        }
+        return RedirectToAction(nameof(Index));
+
+    }
     public async Task<IActionResult> Edit()
     {
         return View();
