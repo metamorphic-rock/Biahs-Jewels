@@ -9,6 +9,7 @@ public interface IShoppingCartService
     public Task<ShoppingCart> GetShoppingCartAsync(int consumerId);
     public Task AddItemToShoppingCartAsync(Product product, int consumerId);
     public Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId);
+    public Task RemoveItemFromShoppingCartAsync(int productId, int consumerId);
 }
 public class ShoppingCartService : IShoppingCartService
 {
@@ -69,6 +70,23 @@ public class ShoppingCartService : IShoppingCartService
 
     public async Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId)
     {
-        return _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId);;
+        return _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId); ;
+    }
+
+    public async Task RemoveItemFromShoppingCartAsync(int productId, int consumerId)
+    {
+        var item = await GetShoppingCartAsync(consumerId);
+        if (item != null)
+        {
+            var productsInCart = await GetProductInCartAsync(item.Id);
+            item.ProductsInCart = productsInCart.ToList();
+            var productToRemove = productsInCart?.FirstOrDefault(x => x.Product.Id == productId);
+
+            if (productToRemove != null)
+            {
+                item?.ProductsInCart?.Remove(productToRemove);
+                await _appDbContext.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -23,6 +23,12 @@
                         @item.Product.Description
                     </p>
                 </div>
+                <div class="card-footer">
+                    <form method="post" asp-controller="ShoppingCart" asp-action="RemoveProductFromCart">
+                        <input type="hidden" name="productId" value="@item.Product.Id"/>
+                        <button class="btn btn-danger">Remove from cart</button>
+                    </form>
+                </div>
             </div>
         </div>
     }

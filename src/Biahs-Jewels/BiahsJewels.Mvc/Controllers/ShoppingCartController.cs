@@ -64,4 +64,15 @@ public class ShoppingCartController : Controller
 
         return RedirectToAction("Index", "Store");
     }
+    [HttpPost]
+    public async Task<IActionResult> RemoveProductFromCart(int productId)
+    {
+        var consumerId = HttpContext.Session.GetInt32("consumerId");
+        var product = await _productService.GetProductById(productId);
+        if (product != null)
+        {
+            await _shoppingCartService.RemoveItemFromShoppingCartAsync(productId, (int)consumerId);
+        }
+        return Redirect("Index");
+    }
 }
