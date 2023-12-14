@@ -81,7 +81,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" asp-controller="Profile" asp-action="UpdateConsumerProfile" id="updateProfileForm">
+            <form enctype="multipart/form-data" method="post" asp-controller="Profile" asp-action="UpdateConsumerProfile" id="updateProfileForm">
                 <input type="hidden" asp-for="Id" name="consumerId"/>
                 <div class="modal-body">
                     <div class="form-group">
@@ -108,6 +108,13 @@
 
                         <label asp-for="SecondaryContactNumber"></label>
                         <input class="form-control" asp-for="SecondaryContactNumber" type="text" />
+
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <label asp-for="ProfilePicture" class="control-label"> Upload Profile Picture </label>
+                                <input asp-for="ProfilePicture" type="file" class="form-control" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

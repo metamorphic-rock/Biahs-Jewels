@@ -9,10 +9,12 @@ namespace BiahsJewels.Mvc.Controllers;
 public class ProfileController : Controller
 {
     private readonly IConsumerService _consumerService;
+    private readonly IFileService _fileService;
 
-    public ProfileController(IConsumerService consumerService)
+    public ProfileController(IConsumerService consumerService, IFileService fileService)
     {
         _consumerService = consumerService;
+        _fileService = fileService;
     }
 
     public async Task<IActionResult> Index()
@@ -45,9 +47,19 @@ public class ProfileController : Controller
     [HttpPost]
     public async Task<IActionResult> UpdateConsumerProfile(int consumerId, Profile profile)
     {
+        
         var adresses = await _consumerService.GetConsumerAddressByConsumerIdAsync(consumerId);
 
         var profileToUpdate = await _consumerService.GetConsumerByConsumerIdAsync(consumerId);
+
+        if (profileToUpdate.ProfilePicturePath == null && profile.ProfilePicture != null)
+        {
+            profile.ProfilePicturePath = await _fileService.UploadProfilePictureAsync(profile);
+        }
+        if (profileToUpdate.ProfilePicturePath != null && profile.ProfilePicture != null)
+        {
+            profile.ProfilePicturePath = await _fileService.UpdateProfilePictureAsync(profileToUpdate.ProfilePicturePath, profile);
+        }
 
         if (profileToUpdate != null)
         {
@@ -56,8 +68,8 @@ public class ProfileController : Controller
         return RedirectToAction(nameof(Index));
 
     }
-    public async Task<IActionResult> Edit()
-    {
-        return View();
-    }
+    //private async Task<IActionResult> UpdateProfilePicture()
+    //{
+
+    //}
 }

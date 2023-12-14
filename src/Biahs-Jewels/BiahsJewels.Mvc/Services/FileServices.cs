@@ -1,5 +1,6 @@
 ﻿using BiahsJewels.Mvc.Data;
 using BiahsJewels.Mvc.Models;
+using System.Security.AccessControl;
 
 namespace BiahsJewels.Mvc.Services;
 
@@ -8,6 +9,8 @@ public interface IFileService
     public string CreateFileName(string fileName);
     public Task<string> UploadFile(Product product);
     public Task<string> UpdateFile(string fileName, Product product);
+    public Task<string> UploadProfilePictureAsync(Profile consumer);
+    public Task<string> UpdateProfilePictureAsync(string fileName, Profile consumer);
     public Task DeleteFile(string fileName);
 }
 public class FileService : IFileService
@@ -74,6 +77,50 @@ public class FileService : IFileService
             }
         }
         return updatedFileName;
+    }
+
+    public async Task<string> UploadProfilePictureAsync(Profile consumer)
+    {
+        var fileName = string.Empty;
+        if(consumer.ProfilePicture != null)
+        {
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profilePictures");
+            var filePath = Path.Combine(uploadsFolder, fileName);
+            fileName = Guid.NewGuid().ToString() + "_" + $"{CreateFileName($"{consumer.FirstName}{consumer.LastName}")}.png";
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                consumer.ProfilePicture.CopyTo(fileStream);
+            }
+        }
+        return fileName;
+    }
+
+    public async Task<string> UpdateProfilePictureAsync(string fileName, Profile consumer)
+    {
+        var imageFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profilePictures");
+        var fileToUpdatePath = Path.Combine(imageFolderPath, fileName);
+        var updatedFileName = fileName;
+        if (File.Exists(fileToUpdatePath))
+        {
+            try 
+            {
+                if(consumer.ProfilePicture != null)
+                {
+                    File.Delete(fileToUpdatePath);
+                    fileName = Guid.NewGuid().ToString() + "_" + $"{CreateFileName($"{consumer.FirstName}{consumer.LastName}")}.png";
+                    var updatedFilePath = Path.Combine(imageFolderPath, updatedFileName);
+                    using (var fileStream = new FileStream(updatedFilePath, FileMode.Create))
+                    {
+                        consumer.ProfilePicture.CopyTo(fileStream);
+                    }
+                }
+            }
+            catch
+            {
+                throw new Exception("File cannot be found");
+            }
+        }
+        return fileName;
     }
 
     public async Task DeleteFile(string fileName)
