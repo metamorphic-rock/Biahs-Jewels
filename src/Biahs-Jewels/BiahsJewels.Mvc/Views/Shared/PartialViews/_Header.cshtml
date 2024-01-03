@@ -12,7 +12,11 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mx-2">
                             <button type="button" class="btn position-relative">
                                 <a asp-controller="ShoppingCart" asp-action="Index"> <i class="fa fa-shopping-cart"></i> </a>
-                                <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">@*Products in cart*@2</span>
+                                <span class="position-absolute top-0 start-100 translate-middle badge bg-primary">
+                                    @{
+                                        TempData["numProductsInCart"]?.ToString();
+                                    }
+                                </span>
                             </button>
                             <button type="button" class="btn position-relative">
                                 <a asp-controller="ProductsLiked" asp-action="Index"> <i class="fa fa-heart"></i></a>

@@ -1,5 +1,6 @@
 ﻿using BiahsJewels.Mvc.Data;
 using BiahsJewels.Mvc.Models;
+using BiahsJewels.Mvc.Models.ViewModel;
 
 namespace BiahsJewels.Mvc.Services;
 
@@ -8,8 +9,9 @@ public interface IShoppingCartService
     public Task<ShoppingCart> CreateShoppingCartForConsumerAsync(int consumerId);
     public Task<ShoppingCart> GetShoppingCartAsync(int consumerId);
     public Task AddItemToShoppingCartAsync(Product product, int consumerId);
-    public Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId);
+    public Task<IEnumerable<ProductInCart>> GetProductsInCartAsync(int shoppingCartId);
     public Task RemoveItemFromShoppingCartAsync(int productId, int consumerId);
+    public Task<int> GetNumberOfProductsInCartAsync(int consumerId);
 }
 public class ShoppingCartService : IShoppingCartService
 {
@@ -44,6 +46,7 @@ public class ShoppingCartService : IShoppingCartService
         return _appDbContext.ShoppingCarts.FirstOrDefault(x => x.ConsumerId == consumerId);
     }
 
+    // TODO: add validation to only add items that are not already in the cart
     public async Task AddItemToShoppingCartAsync(Product product, int consumerId)
     {
         var item = await GetShoppingCartAsync(consumerId);
@@ -51,26 +54,33 @@ public class ShoppingCartService : IShoppingCartService
         {
             item = CreateShoppingCartForConsumerAsync(consumerId).Result;
         };
+
         item.ProductsInCart = new List<ProductInCart>();
 
-        var productToAdd = new ProductInCart()
+        var cartId = item.Id;
+        var itemIsAlreadyInCart = IsProductAlreadyInShoppingCartAsync(cartId, product.Id);
+        if (!itemIsAlreadyInCart.Result)
         {
-            ProductId = product.Id,
-            Product = product,
-            ShoppingCartId = item.Id,
-            Quantity = 1,
-            TotalPrice = product.Price * 1,
-        };
+            var productToAdd = new ProductInCart()
+            {
+                ProductId = product.Id,
+                Product = product,
+                ShoppingCartId = item.Id,
+                Quantity = 1,
+                TotalPrice = product.Price * 1,
+            };
 
-        item.ProductsInCart.Add(productToAdd);
+            item.ProductsInCart.Add(productToAdd);
 
-        _appDbContext.ProductInCarts.Add(productToAdd);
+            _appDbContext.ProductInCarts.Add(productToAdd);
+        }
+
         await _appDbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<ProductInCart>> GetProductInCartAsync(int shoppingCartId)
+    public async Task<IEnumerable<ProductInCart>> GetProductsInCartAsync(int shoppingCartId)
     {
-        return _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId); ;
+        return _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId);
     }
 
     public async Task RemoveItemFromShoppingCartAsync(int productId, int consumerId)
@@ -78,7 +88,7 @@ public class ShoppingCartService : IShoppingCartService
         var item = await GetShoppingCartAsync(consumerId);
         if (item != null)
         {
-            var productsInCart = await GetProductInCartAsync(item.Id);
+            var productsInCart = await GetProductsInCartAsync(item.Id);
             item.ProductsInCart = productsInCart.ToList();
             var productToRemove = productsInCart?.FirstOrDefault(x => x.Product.Id == productId);
 
@@ -88,5 +98,28 @@ public class ShoppingCartService : IShoppingCartService
                 await _appDbContext.SaveChangesAsync();
             }
         }
+    }
+
+    private async Task<bool> IsProductAlreadyInShoppingCartAsync(int shoppingCartId, int productId)
+    {
+        var shoppingCart = await GetProductsInCartAsync(shoppingCartId);
+        if (shoppingCart == null)
+        {
+            throw new Exception("Shopping cart does not exist");
+        }
+        var item = shoppingCart.FirstOrDefault(x => x.ProductId == productId);
+        return item != null;
+    }
+
+    public async Task<int> GetNumberOfProductsInCartAsync(int consumerId)
+    {
+        var item = await GetShoppingCartAsync(consumerId);
+        if (item == null)
+        {
+            throw new Exception("Shopping cart does not exist");
+        }
+        var shoppingCartId = item.Id;
+        var productsInCart = _appDbContext.ProductInCarts.Where(x => x.ShoppingCartId == shoppingCartId);
+        return productsInCart.Count();
     }
 }

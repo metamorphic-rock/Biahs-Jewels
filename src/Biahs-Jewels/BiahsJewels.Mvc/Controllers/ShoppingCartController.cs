@@ -33,7 +33,7 @@ public class ShoppingCartController : Controller
             shoppingCart = await _shoppingCartService.CreateShoppingCartForConsumerAsync((int)consumerId);
         }
 
-        var itemsInCart = await _shoppingCartService.GetProductInCartAsync(shoppingCart.Id);
+        var itemsInCart = await _shoppingCartService.GetProductsInCartAsync(shoppingCart.Id);
 
         var shoppingCartItem = new ShoppingCartVM()
         {
@@ -61,6 +61,8 @@ public class ShoppingCartController : Controller
         var consumerId = HttpContext.Session.GetInt32("consumerId");
 
         await _shoppingCartService.AddItemToShoppingCartAsync(product, (int)consumerId);
+        var numberOfProductsInCart = await _shoppingCartService.GetNumberOfProductsInCartAsync((int)consumerId);
+        TempData["numProductsInCart"] = numberOfProductsInCart;
 
         return RedirectToAction("Index", "Store");
     }
